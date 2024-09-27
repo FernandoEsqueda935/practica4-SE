@@ -15,7 +15,6 @@
 #define ECHO_UART_BAUD_RATE 115200
 #define ECHO_TASK_STACK_SIZE 1024
 
-//static const char *TAG = "UART TEST";
 
 #define BUF_SIZE (128)
 #define PAN_SIZE (25)
@@ -26,8 +25,7 @@ uint8_t banner_index = 0;
 
 static void get_banner(void *arg)
 {
-    /* Configure parameters of an UART driver,
-     * communication pins and install the driver */
+
     uart_config_t uart_config = {
         .baud_rate = ECHO_UART_BAUD_RATE,
         .data_bits = UART_DATA_8_BITS,
@@ -38,17 +36,13 @@ static void get_banner(void *arg)
     };
     int intr_alloc_flags = 0;
 
-#if CONFIG_UART_ISR_IN_IRAM
-    intr_alloc_flags = ESP_INTR_FLAG_IRAM;
-#endif
-
-    ESP_ERROR_CHECK(uart_driver_install(GET_BANNER_UART, BUF_SIZE , 0, 0, NULL, intr_alloc_flags));
-    ESP_ERROR_CHECK(uart_param_config(GET_BANNER_UART, &uart_config));
+    uart_driver_install(GET_BANNER_UART, BUF_SIZE , 0, 0, NULL, intr_alloc_flags);
+    uart_param_config(GET_BANNER_UART, &uart_config);
     ESP_ERROR_CHECK(uart_set_pin(GET_BANNER_UART, GET_BANNER_TX, GET_BANNER_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
 
-    ESP_ERROR_CHECK(uart_driver_install(SEND_BANNER_UART, BUF_SIZE , 0, 0, NULL, intr_alloc_flags));
-    ESP_ERROR_CHECK(uart_param_config(SEND_BANNER_UART, &uart_config));
-    ESP_ERROR_CHECK(uart_set_pin(SEND_BANNER_UART, DISPLAY_BANNER_TX, DISPLAY_BANNER_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
+    uart_driver_install(SEND_BANNER_UART, BUF_SIZE , 0, 0, NULL, intr_alloc_flags);
+    uart_param_config(SEND_BANNER_UART, &uart_config);
+    uart_set_pin(SEND_BANNER_UART, DISPLAY_BANNER_TX, DISPLAY_BANNER_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 
 
     // Configure a temporary buffer for the incoming data

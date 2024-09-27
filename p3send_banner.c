@@ -38,7 +38,7 @@ static void get_banner(void *arg)
 
     uart_driver_install(GET_BANNER_UART, BUF_SIZE , 0, 0, NULL, intr_alloc_flags);
     uart_param_config(GET_BANNER_UART, &uart_config);
-    ESP_ERROR_CHECK(uart_set_pin(GET_BANNER_UART, GET_BANNER_TX, GET_BANNER_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
+    uart_set_pin(GET_BANNER_UART, GET_BANNER_TX, GET_BANNER_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 
     uart_driver_install(SEND_BANNER_UART, BUF_SIZE , 0, 0, NULL, intr_alloc_flags);
     uart_param_config(SEND_BANNER_UART, &uart_config);
